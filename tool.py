@@ -101,7 +101,7 @@ def update_map(year_range, provoked_values, shark_values, activity_values):
                             color='Shark.common.name',
                             hover_name='Location',
                            hover_data = ['Shark.common.name', 'Victim.activity','Provoked/unprovoked', "Incident.year"], # Include more data in the hover
-                            zoom=3.5
+                            zoom=3.5,
                             center={"lat": -25.2744, "lon": 133.7751}, # Center map on Australia
                             height=800)
     fig.update_layout(mapbox_style="light", title="Shark Incidents in Australia")
