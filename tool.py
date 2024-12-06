@@ -64,15 +64,21 @@ app.layout = dbc.Container([
             dcc.Graph(id='month-bar-chart', figure={}),  # Bar chart placeholder for month
             dcc.Graph(id='injury-bar-chart', figure={}),  # Bar chart placeholder for injuries
             html.Div(id='year-range-display'),  # Display for selected years
-            dcc.RangeSlider(
-                id='year-slider',
-                min=df['Incident.year'].min(),
-                max=df['Incident.year'].max(),
-                value=[df['Incident.year'].min(), df['Incident.year'].max()],
-                marks={year: str(year) if year == df['Incident.year'].min() or year == df['Incident.year'].max() else ''
-                       for year in range(int(df['Incident.year'].min()), int(df['Incident.year'].max()) + 1)},
-                tooltip={"placement": "bottom", "always_visible": True}
-            ),
+            html.Div([
+                html.Label('Year Range:'),
+                dcc.RangeSlider(
+                    id='year-slider',
+                    min=int(df['Incident.year'].min()),  # Convert to int
+                    max=int(df['Incident.year'].max()),  # Convert to int
+                    value=[int(df['Incident.year'].min()), int(df['Incident.year'].max())],  # Convert to int
+                    marks={
+                        int(df['Incident.year'].min()): str(df['Incident.year'].min()),
+                        int(df['Incident.year'].max()): str(df['Incident.year'].max())
+                    },
+                    tooltip={"placement": "bottom", "always_visible": True}
+                )
+            ]),
+
             html.Br(),
             html.Label('Provoked/Unprovoked:'),
             dcc.Dropdown(
@@ -163,7 +169,7 @@ def update_graphs(year_range, provoked_values, shark_values, activity_values):
             'Incident.year': True,
             'Location': True
         },
-        zoom=3.5,
+        zoom=3.7,
         center={"lat": -25.2744, "lon": 133.7751},
         height=1200
     )
